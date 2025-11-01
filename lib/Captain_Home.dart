@@ -11,7 +11,7 @@ import 'database/database.dart';
 
 // ignore: camel_case_types
 class Captain_Home extends StatefulWidget {
-  const Captain_Home({Key? key}) : super(key: key);
+  const Captain_Home({super.key});
 
   @override
   State<Captain_Home> createState() => _Captain_HomeState();
@@ -41,6 +41,7 @@ class _Captain_HomeState extends State<Captain_Home> {
     initList();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       //主體是Container
@@ -114,9 +115,8 @@ class _Captain_HomeState extends State<Captain_Home> {
                 child: TextField(
                   //搜尋欄
                   onChanged: (value) {
-                    setState(() {
-                      filterSearchResults(value);
-                    });
+                    // call async search function directly; it will call setState when needed
+                    filterSearchResults(value);
                   },
                   cursorColor: const Color.fromARGB(255, 135, 168, 202),
                   style: const TextStyle(
@@ -268,45 +268,40 @@ class _Captain_HomeState extends State<Captain_Home> {
 
   List<Member> reclist = [];
 
-  void filterSearchResults(String query) {
-    List<Member> dummySearchList = [];
-    dummySearchList.addAll(_alldata());
+  // Ensure reclist is loaded before performing search.
+  Future<void> filterSearchResults(String query) async {
+    if (reclist.isEmpty) {
+      // fetch data if not already loaded
+      await getData();
+    }
+
+    final List<Member> allData = List<Member>.from(reclist);
+
     if (query.isNotEmpty) {
-      List<Member> dummyListData = [];
-      dummySearchList.forEach((item) {
-        if (item.Name.contains(query.toUpperCase()) || item.Id.contains(query) || item.Name.contains(query.toLowerCase())) {
-          dummyListData.add(item);
-        }
-      });
+      final List<Member> matched = allData.where((item) {
+        final nameUpper = item.Name.toUpperCase();
+        final nameLower = item.Name.toLowerCase();
+        return nameUpper.contains(query.toUpperCase()) || item.Id.contains(query) || nameLower.contains(query.toLowerCase());
+      }).toList();
+
       setState(() {
         checkState = false;
-        searchList.clear();
-        searchList.addAll(dummyListData);
-        print(searchList.length);
+        searchList = matched;
       });
       return;
     } else {
       setState(() {
-        searchList.clear();
-        // searchList.addAll(getList());
-        searchList.addAll(_alldata());
-        // searchList = globalList;
-        print('global size:');
-        // print(globalList.length);
+        searchList = List<Member>.from(allData);
+        print('global size: ${searchList.length}');
       });
     }
-  }
-
-  List<Member> _alldata() {
-    getData();
-    return reclist;
   }
 
   void addList(Member addk) async {
     await CrewDB.AddMember(addk, Crewdb);
   }
 
-  void getData() async {
+  Future<void> getData() async {
     final list = await CrewDB.getMember(Crewdb);
     setState(() {
       reclist = list;

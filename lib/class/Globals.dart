@@ -1,4 +1,5 @@
-library my_prj.globals;
+// ignore_for_file: file_names
+library;
 
 import '../database/database.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,7 +11,7 @@ bool confirmCheckState = false;
 int ButtonState = 0;
 bool checkState = false;
 
-var update_queue = Map<String, WorkSheet>();
+var update_queue = <String, WorkSheet>{};
 
 class Timelist {
   Timelist(
@@ -32,10 +33,10 @@ class Timelist {
 
   Map<String, dynamic> toJson() {
     return {
-      "state": this.state,
-      "stTime": this.stTime,
-      "endTime": this.endTime,
-      "dura": this.dura,
+      "state": state,
+      "stTime": stTime,
+      "endTime": endTime,
+      "dura": dura,
     };
   }
 
@@ -195,14 +196,14 @@ class User {
   });
 
   static User fromMap(Map<String, dynamic> user) {
-    return new User(
+    return User(
       user: user['user'],
       password: user['password'],
       modelData: jsonDecode(user['model_data']),
     );
   }
 
-  toMap() {
+  Map<String, String> toMap() {
     return {
       'user': user,
       'password': password,

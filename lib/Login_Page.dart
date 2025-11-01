@@ -3,13 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/class/Globals.dart';
 import 'database/database.dart';
-import 'package:flutter_project/services/camera.service.dart';
-import 'package:flutter_project/services/ml_service.dart';
-import 'package:flutter_project/services/face_detector_service.dart';
-import 'package:flutter_project/locator.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -29,28 +25,11 @@ class _HomePage extends State<HomePage> {
     fieldTextW.clear();
   }
 
-  MLService _mlService = locator<MLService>();
-  FaceDetectorService _mlKitService = locator<FaceDetectorService>();
-  CameraService _cameraService = locator<CameraService>();
-  bool loading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeServices();
-  }
-
-  _initializeServices() async {
-    setState(() => loading = true);
-    await _cameraService.initialize();
-    await _mlService.initialize();
-    _mlKitService.initialize();
-    setState(() => loading = false);
-  }
+  // Face recognition services removed; login uses username/password only.
 
   @override
   Widget build(BuildContext context) {
-    var login_text = const Text("登入",
+    var loginText = const Text("登入",
         style: TextStyle(
           color: Color.fromARGB(255, 82, 82, 82),
           fontSize: 32,
@@ -207,25 +186,6 @@ class _HomePage extends State<HomePage> {
       ),
     );
 
-    var faceButton = CupertinoButton(
-      padding: const EdgeInsets.fromLTRB(140, 10, 0, 10),
-      // borderRadius: BorderRadius.circular(10),
-      // color: const Color.fromARGB(255, 135, 168, 202),
-      child: const Text(
-        textAlign: TextAlign.right,
-        '生物辨識登入 >',
-        style: TextStyle(
-          color: Color.fromARGB(255, 44, 61, 92),
-          fontSize: 16.0,
-          fontFamily: 'GenJyuu',
-          // decoration: TextDecoration.underline,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/FaceIDLogin');
-      },
-    );
-
     return Container(
         decoration: const BoxDecoration(
           //背景圖片
@@ -254,18 +214,18 @@ class _HomePage extends State<HomePage> {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                login_text,
+                loginText,
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: 250,
                   child: textfield,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   width: 250,
                   child: password,
                 ),
@@ -273,10 +233,6 @@ class _HomePage extends State<HomePage> {
                   height: 20,
                 ),
                 confirmbutton,
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // faceButton,
               ]),
             )));
   }

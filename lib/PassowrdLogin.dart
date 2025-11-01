@@ -1,11 +1,10 @@
 // ignore_for_file: file_names
-import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'class/Globals.dart';
 
 class PasswordLogin extends StatefulWidget {
-  const PasswordLogin({Key? key}) : super(key: key);
+  const PasswordLogin({super.key});
 
   @override
   State<PasswordLogin> createState() => _PasswordLogin();
@@ -21,7 +20,7 @@ class _PasswordLogin extends State<PasswordLogin> {
 
   @override
   Widget build(BuildContext context) {
-    var login_text = const Text("密碼登入",
+    var loginText = const Text("密碼登入",
         style: TextStyle(
           color: Color.fromARGB(255, 82, 82, 82),
           fontSize: 32,
@@ -129,13 +128,13 @@ class _PasswordLogin extends State<PasswordLogin> {
                 const SizedBox(
                   height: 70,
                 ),
-                login_text,
+                loginText,
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: textfield,
+                SizedBox(
                   width: 250,
+                  child: textfield,
                   // child: Row(
                   //   children: [Expanded(child: textfield), eyebutton],
                   // ),

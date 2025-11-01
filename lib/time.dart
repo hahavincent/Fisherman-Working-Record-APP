@@ -5,7 +5,7 @@ import 'class/drawer.dart';
 
 // ignore: camel_case_types
 class Timeout extends StatefulWidget {
-  const Timeout({Key? key}) : super(key: key);
+  const Timeout({super.key});
 
   @override
   State<Timeout> createState() => _TimeoutState();

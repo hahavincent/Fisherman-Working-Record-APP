@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget {
+  const TopBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
+      painter: CurvePainter(),
       child: Container(
           // width: 300.0,
           // height: 300.0,
           ),
-      painter: CurvePainter(),
     );
   }
 }

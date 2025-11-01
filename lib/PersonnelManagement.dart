@@ -7,7 +7,7 @@ import 'database/database.dart';
 
 // ignore: camel_case_types
 class Management extends StatefulWidget {
-  const Management({Key? key}) : super(key: key);
+  const Management({super.key});
 
   @override
   State<Management> createState() => _Management();
@@ -34,6 +34,7 @@ class _Management extends State<Management> {
     initList();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       //主體是Container
@@ -123,7 +124,7 @@ class _Management extends State<Management> {
             ],
           ),
         ),
-        floatingActionButton: Container(
+        floatingActionButton: SizedBox(
           width: 100,
           height: 100,
           child: FittedBox(
@@ -237,7 +238,7 @@ class _Management extends State<Management> {
     );
   }
 
-  showDataAlert(int state, Member root) {
+  void showDataAlert(int state, Member root) {
     Member edit = root;
 
     showDialog(
@@ -262,7 +263,7 @@ class _Management extends State<Management> {
             ),
             content: Form(
               key: formGlobalKey,
-              child: Container(
+              child: SizedBox(
                 height: 600,
                 width: 600,
                 child: Column(
@@ -425,9 +426,8 @@ class _Management extends State<Management> {
                   ],
                 ),
               ),
-            ),
-          );
-        });
+            ));
+          });
   }
 
   void addList(Member addk) async {

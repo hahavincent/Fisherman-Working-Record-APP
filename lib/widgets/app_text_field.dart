@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
-  AppTextField(
-      {Key? key,
+  const AppTextField(
+      {super.key,
       required this.labelText,
       required this.controller,
       this.keyboardType = TextInputType.text,
       this.autofocus = false,
-      this.isPassword = false})
-      : super(key: key);
+      this.isPassword = false});
 
   final String labelText;
   final TextEditingController controller;
@@ -19,8 +18,8 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: this.controller,
-      autofocus: this.autofocus,
+      controller: controller,
+      autofocus: autofocus,
       cursorColor: Color(0xFF5BC8AA),
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -28,16 +27,16 @@ class AppTextField extends StatelessWidget {
         border: InputBorder.none,
         filled: true,
         fillColor: Colors.grey[200],
-        enabledBorder: new OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+            Radius.circular(10.0),
           ),
         ),
-        focusedBorder: new OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: const BorderRadius.all(
-            const Radius.circular(10.0),
+            Radius.circular(10.0),
           ),
         ),
       ),

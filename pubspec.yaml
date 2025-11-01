@@ -38,7 +38,6 @@ dependencies:
   sqflite: ^2.4.2
   intl: ^0.20.2
   firebase_core: ^4.1.1
-  camera: ^0.11.2
   fluttericon: ^2.0.0
   animated_snack_bar: ^0.4.0
   date_format: ^2.0.9
@@ -47,13 +46,13 @@ dependencies:
   flutter_slidable: ^4.0.3
   dropdown_button2: ^2.3.9
   path_provider: ^2.1.5
-  google_mlkit_face_detection: ^0.13.1
   image: ^4.5.4
-  tflite_flutter: ^0.12.1
   get_it: ^8.2.0
   animated_button: ^0.3.1
-  google_mlkit_commons: ^0.11.0
 
+  # face recognition packages removed
+
+  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

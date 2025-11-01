@@ -1,18 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Globals.dart';
 
 class MyDrawer extends StatelessWidget {
-  MyDrawer({
+  const MyDrawer({
     super.key,
     required this.state,
   });
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final int state;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: 400,
         child: Drawer(
           child: Column(

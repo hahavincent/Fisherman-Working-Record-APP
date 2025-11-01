@@ -4,7 +4,7 @@ import 'RecTable.dart';
 
 
 class Steps extends StatefulWidget {
-  const Steps({required this.namelist, required this.nowlist, Key? key}) : super(key: key);
+  const Steps({required this.namelist, required this.nowlist, super.key});
   final List<Member> namelist;
   final DateTime nowlist;
 
@@ -18,6 +18,7 @@ class _StepsState extends State<Steps> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return gaplist();
   }

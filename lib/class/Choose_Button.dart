@@ -1,13 +1,11 @@
-// ignore: file_names
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'Globals.dart';
 
 class ChoiceChipDemo extends StatefulWidget {
+  const ChoiceChipDemo({super.key});
+
   @override
   State<ChoiceChipDemo> createState() => _ChoiceChipDemoState();
 }

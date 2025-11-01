@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'Globals.dart';
 import 'package:flutter/material.dart';
 import '../database/database.dart';
@@ -10,7 +11,7 @@ class datelimit {
 }
 
 class TimeList extends StatefulWidget {
-  const TimeList({Key? key}) : super(key: key);
+  const TimeList({super.key});
 
   @override
   State<TimeList> createState() => _TimeList();
@@ -18,7 +19,7 @@ class TimeList extends StatefulWidget {
 
 class _TimeList extends State<TimeList> {
   List<datelimit> notices = [];
-  final rec = Map<String, List<String>>();
+  final rec = <String, List<String>>{};
   datelimit tmp = datelimit('', []);
 
   void initList() async {
@@ -47,8 +48,16 @@ class _TimeList extends State<TimeList> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    return gaplist();
+    return ListView.builder(
+      padding: const EdgeInsets.all(10),
+      itemBuilder: (BuildContext context, int index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: _buildTiles(notices[index]),
+      ),
+      itemCount: notices.length,
+    );
   }
 
   Widget strlist(List<String> s) {
@@ -67,17 +76,6 @@ class _TimeList extends State<TimeList> {
           );
         },
       ).toList(),
-    );
-  }
-
-  Widget gaplist() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemBuilder: (BuildContext context, int index) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: _buildTiles(notices[index]),
-      ),
-      itemCount: notices.length,
     );
   }
 

@@ -1,5 +1,5 @@
+// ignore_for_file: file_names
 import 'Globals.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../database/database.dart';
 import 'package:date_format/date_format.dart';
@@ -72,6 +72,7 @@ class MyTableButtonState extends State<MyTable> {
     debugPrint(tabledata.toString());
   }
 
+  @override
   Widget build(BuildContext context) {
     // if (ButtonState == 0) {
     //   return Center(child: Text('請先在上方選「工作 / 用餐」再點時間格',
@@ -91,7 +92,8 @@ class MyTableButtonState extends State<MyTable> {
   }
 
   bool canTap() {
-    return (ButtonState != 0) && ((tabledata.State ?? 0) == 0);
+    // ButtonState is global and always non-null; check explicit conditions
+    return ButtonState != 0 && (tabledata.State == 0);
   }
 
   Widget _fourTimes() {
@@ -133,7 +135,6 @@ class MyTableButtonState extends State<MyTable> {
       });
     }
 
-    const double outerPad = 15.0;   // 你的外層 Container 左右 padding
     const double gap = 16.0;        // Chip 之間間距（可調大）
     const double chipHeight = 48.0; // Chip 高度（可調大）
     const double fontSize = 20.0;   // 文字大小（可調大）

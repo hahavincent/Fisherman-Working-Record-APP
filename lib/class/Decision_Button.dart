@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class FMCupertinoButtonVC extends StatefulWidget {
-  FMCupertinoButtonVC({
+  const FMCupertinoButtonVC({
     super.key,
     // required this.state,
   });

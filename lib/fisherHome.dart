@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class FisherHome extends StatefulWidget {
-  const FisherHome({Key? key}) : super(key: key);
+  const FisherHome({super.key});
 
   @override
   State<FisherHome> createState() => _FisherHomeState();
@@ -86,6 +87,7 @@ class _FisherHomeState extends State<FisherHome> {
     debugPrint('init');
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       //主體是Container
@@ -221,7 +223,7 @@ class _FisherHomeState extends State<FisherHome> {
       // tilePadding: EdgeInsets.fromLTRB(0, 0, 458, 0),
       leading: (state == 0)
           ? Checkbox(
-        fillColor: MaterialStateProperty.all(Colors.blueGrey),
+        fillColor: const WidgetStatePropertyAll(Colors.blueGrey),
         // color: Color.fromARGB(255, 55, 81, 136),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
@@ -264,8 +266,8 @@ class _FisherHomeState extends State<FisherHome> {
   Widget _lis(List<Timelist> level) {
     return Column(
         children: List<Widget>.generate(level.length, (ID) {
-          var _stime = level[ID].stTime;
-          var _etime = level[ID].endTime;
+          var stime = level[ID].stTime;
+          var etime = level[ID].endTime;
           return Column(
             children: [
               Container(
@@ -302,7 +304,7 @@ class _FisherHomeState extends State<FisherHome> {
                     width: 15,
                   ),
                   Text(
-                    _stime,
+                    stime,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -318,7 +320,7 @@ class _FisherHomeState extends State<FisherHome> {
                     ),
                   ),
                   Text(
-                    _etime,
+                    etime,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -824,7 +826,7 @@ class _FisherHomeState extends State<FisherHome> {
       list2[0].State = 1;
       updatesheetstate(list1[0]);
       updatetimestate(list2[0]);
-      debugPrint('更新狀態:${date}');
+      debugPrint('更新狀態:$date');
       debugPrint('${list1[0].State}');
       cheakforlimit(list1[0]);
       showout.clear();

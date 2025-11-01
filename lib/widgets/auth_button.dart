@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
-  const AuthButton({Key? key, required this.onTap}) : super(key: key);
+  const AuthButton({super.key, required this.onTap});
   final void Function() onTap;
 
   @override
@@ -14,7 +14,7 @@ class AuthButton extends StatelessWidget {
             color: Color(0xFF0F0BDB),
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withAlpha(26),
                 blurRadius: 1,
                 offset: Offset(0, 2),
               ),

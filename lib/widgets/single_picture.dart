@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class SinglePicture extends StatelessWidget {
-  const SinglePicture({Key? key, required this.imagePath}) : super(key: key);
+  const SinglePicture({super.key, required this.imagePath});
   final String imagePath;
 
   @override
@@ -11,16 +11,16 @@ class SinglePicture extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final double mirror = math.pi;
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Transform(
           alignment: Alignment.center,
+          transform: Matrix4.rotationY(mirror),
           child: FittedBox(
             fit: BoxFit.cover,
             child: Image.file(File(imagePath)),
-          ),
-          transform: Matrix4.rotationY(mirror)),
+          )),
     );
   }
 }

@@ -1,13 +1,13 @@
+// ignore_for_file: file_names
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'Globals.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../database/database.dart';
 
 String? selectedValue;
 
 class ManList extends StatefulWidget {
-  ManList({super.key});
+  const ManList({super.key});
 
   @override
   State<ManList> createState() => ManListState();
@@ -103,8 +103,7 @@ class ManListState extends State<ManList> {
     );
   }
 
-  showDataAlert(int state, Member root) {
-    Member edit = root;
+  void showDataAlert(int state, Member root) {
     showDialog(
         context: context,
         builder: (context) {
@@ -123,7 +122,7 @@ class ManListState extends State<ManList> {
               (state == 0) ? "新增資料" : "修改資料",
               style: TextStyle(fontSize: 24.0),
             ),
-            content: Container(
+            content: SizedBox(
               height: 400,
               width: 500,
               child: SingleChildScrollView(

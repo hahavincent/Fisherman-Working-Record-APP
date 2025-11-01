@@ -1,202 +1,139 @@
-import 'package:flutter_project/locator.dart';
+// ignore_for_file: file_names
 import 'package:flutter_project/database/databse_helper.dart';
 import 'package:flutter_project/class/Globals.dart';
 import 'package:flutter_project/widgets/app_button.dart';
-import 'package:flutter_project/services/camera.service.dart';
-import 'package:flutter_project/services/ml_service.dart';
 import 'package:flutter/material.dart';
 import 'app_text_field.dart';
 
 class AuthActionButton extends StatefulWidget {
-  AuthActionButton({Key? key, required this.onPressed, required this.isLogin, required this.reload});
-  final Function onPressed;
+  const AuthActionButton({super.key, required this.isLogin, required this.reload});
   final bool isLogin;
   final Function reload;
+
   @override
   _AuthActionButtonState createState() => _AuthActionButtonState();
 }
 
 class _AuthActionButtonState extends State<AuthActionButton> {
-  final MLService _mlService = locator<MLService>();
-  final CameraService _cameraService = locator<CameraService>();
-
   final TextEditingController _userTextEditingController = TextEditingController(text: '');
   final TextEditingController _passwordTextEditingController = TextEditingController(text: '');
 
-  User? predictedUser;
-
   Future _signUp(context) async {
-    DatabaseHelper _databaseHelper = DatabaseHelper.instance;
-    List predictedData = _mlService.predictedData;
+    DatabaseHelper databaseHelper = DatabaseHelper.instance;
     String user = _userTextEditingController.text;
     String password = _passwordTextEditingController.text;
     User userToSave = User(
       user: user,
       password: password,
-      modelData: predictedData,
+      modelData: [],
     );
-    await _databaseHelper.insert(userToSave);
-    this._mlService.setPredictedData([]);
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+    await databaseHelper.insert(userToSave);
+    widget.reload();
   }
 
   Future _signIn(context) async {
-    String password = _passwordTextEditingController.text;
-    if (this.predictedUser!.password == password) {
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (BuildContext context) => Profile(
-      //               this.predictedUser!.user,
-      //               imagePath: _cameraService.imagePath!,
-      //             )));
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text('Wrong password!'),
-          );
-        },
-      );
-    }
+    // For now we don't have prediction; sign-in should validate against DB via caller if needed.
+    // Here we simply close the sheet; integrate real auth as needed.
+    Navigator.of(context).pop();
   }
 
-  Future<User?> _predictUser() async {
-    User? userAndPass = await _mlService.predict();
-    return userAndPass;
-  }
-
-  Future onTap() async {
-    try {
-      bool faceDetected = await widget.onPressed();
-      if (faceDetected) {
-        if (widget.isLogin) {
-          var user = await _predictUser();
-          if (user != null) {
-            this.predictedUser = user;
-          }
-        }
-        PersistentBottomSheetController bottomSheetController = Scaffold.of(context).showBottomSheet((context) => signSheet(context));
-        bottomSheetController.closed.whenComplete(() => widget.reload());
-      }
-    } catch (e) {
-      print(e);
-    }
+  void _openSignSheet() {
+    Scaffold.of(context).showBottomSheet((context) => signSheet(context));
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: _openSignSheet,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.blue[200],
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withAlpha(26),
               blurRadius: 1,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         width: MediaQuery.of(context).size.width * 0.8,
         height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Text(
-              'CAPTURE',
+              'AUTH',
               style: TextStyle(color: Colors.white),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(Icons.camera_alt, color: Colors.white)
+            SizedBox(width: 10),
+            Icon(Icons.login, color: Colors.white)
           ],
         ),
       ),
     );
   }
 
-  signSheet(BuildContext context) {
+  Container signSheet(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          widget.isLogin && predictedUser != null
+          widget.isLogin
               ? Container(
-                  child: Text(
-                    'Welcome back, ' + predictedUser!.user + '.',
+                  child: const Text(
+                    '請輸入帳號與密碼登入',
                     style: TextStyle(fontSize: 20),
                   ),
                 )
-              : widget.isLogin
-                  ? Container(
-                      child: Text(
-                      'User not found 😞',
-                      style: TextStyle(fontSize: 20),
-                    ))
-                  : Container(),
+              : Container(),
           Container(
             child: Column(
               children: [
-                !widget.isLogin
-                    ? AppTextField(
-                        controller: _userTextEditingController,
-                        labelText: "Your Name",
-                      )
-                    : Container(),
-                SizedBox(height: 10),
-                widget.isLogin && predictedUser == null
-                    ? Container()
-                    : AppTextField(
-                        controller: _passwordTextEditingController,
-                        labelText: "Password",
-                        isPassword: true,
-                      ),
-                SizedBox(height: 10),
-                Divider(),
-                SizedBox(height: 10),
-                widget.isLogin && predictedUser != null
+                if (!widget.isLogin)
+                  AppTextField(
+                    controller: _userTextEditingController,
+                    labelText: 'Your Name',
+                  ),
+                const SizedBox(height: 10),
+                AppTextField(
+                  controller: _passwordTextEditingController,
+                  labelText: 'Password',
+                  isPassword: true,
+                ),
+                const SizedBox(height: 10),
+                const Divider(),
+                const SizedBox(height: 10),
+                widget.isLogin
                     ? AppButton(
                         text: 'LOGIN',
                         onPressed: () async {
-                          _signIn(context);
+                          await _signIn(context);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.login,
                           color: Colors.white,
                         ),
                       )
-                    : !widget.isLogin
-                        ? AppButton(
-                            text: 'SIGN UP',
-                            onPressed: () async {
-                              await _signUp(context);
-                            },
-                            icon: Icon(
-                              Icons.person_add,
-                              color: Colors.white,
-                            ),
-                          )
-                        : Container(),
+                    : AppButton(
+                        text: 'SIGN UP',
+                        onPressed: () async {
+                          await _signUp(context);
+                        },
+                        icon: const Icon(
+                          Icons.person_add,
+                          color: Colors.white,
+                        ),
+                      ),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

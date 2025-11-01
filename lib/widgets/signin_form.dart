@@ -1,16 +1,13 @@
-import 'package:flutter_project/locator.dart';
 import 'package:flutter_project/class/Globals.dart';
 import 'package:flutter_project/widgets/app_button.dart';
 import 'package:flutter_project/widgets/app_text_field.dart';
-import 'package:flutter_project/services/camera.service.dart';
 import 'package:flutter/material.dart';
 
 class SignInSheet extends StatelessWidget {
-  SignInSheet({Key? key, required this.user}) : super(key: key);
+  SignInSheet({super.key, required this.user});
   final User user;
 
   final _passwordController = TextEditingController();
-  final _cameraService = locator<CameraService>();
 
   Future _signIn(context, user) async {
     if (user.password == _passwordController.text) {
@@ -42,36 +39,32 @@ class SignInSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: Text(
-              'Welcome back, ' + user.user + '.',
-              style: TextStyle(fontSize: 20),
-            ),
+          Text(
+            'Welcome back, ${user.user}.',
+            style: TextStyle(fontSize: 20),
           ),
-          Container(
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: _passwordController,
-                  labelText: "Password",
-                  isPassword: true,
+          Column(
+            children: [
+              SizedBox(height: 10),
+              AppTextField(
+                controller: _passwordController,
+                labelText: "Password",
+                isPassword: true,
+              ),
+              SizedBox(height: 10),
+              Divider(),
+              SizedBox(height: 10),
+              AppButton(
+                text: 'LOGIN',
+                onPressed: () async {
+                  _signIn(context, user);
+                },
+                icon: Icon(
+                  Icons.login,
+                  color: Colors.white,
                 ),
-                SizedBox(height: 10),
-                Divider(),
-                SizedBox(height: 10),
-                AppButton(
-                  text: 'LOGIN',
-                  onPressed: () async {
-                    _signIn(context, user);
-                  },
-                  icon: Icon(
-                    Icons.login,
-                    color: Colors.white,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ],
       ),

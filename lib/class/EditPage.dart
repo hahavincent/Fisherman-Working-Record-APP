@@ -1,18 +1,24 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'Globals.dart';
 
-class EditPage extends StatelessWidget {
+class EditPage extends StatefulWidget {
   //點開後
-  EditPage(
+  const EditPage(
     this.name,
     this.st,
     this.onClose, {
-    Key? key,
-  }) : super(key: key);
-  bool st;
-  Namelist name;
+    super.key,
+  });
+  final bool st;
+  final Namelist name;
   final void Function() onClose;
+
+  @override
+  State<EditPage> createState() => _EditPageState();
+}
+
+class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,9 +37,9 @@ class EditPage extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             color: Color.fromARGB(255, 255, 255, 255),
-            onPressed: onClose,
+            onPressed: widget.onClose,
           ),
-          title: st ? Text('編輯資料') : Text('新增檔案'),
+          title: widget.st ? Text('編輯資料') : Text('新增檔案'),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 80.0, vertical: 30),
@@ -42,7 +48,7 @@ class EditPage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  _item('姓名', name.title, false),
+                  _item('姓名', widget.name.title, false),
                   const SizedBox(
                     height: 20,
                   ),
@@ -82,7 +88,7 @@ class EditPage extends StatelessWidget {
         const SizedBox(
           width: 20,
         ),
-        Container(
+        SizedBox(
           width: 250,
           child: TextFormField(
             readOnly: modi,

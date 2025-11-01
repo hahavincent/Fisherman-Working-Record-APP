@@ -8,7 +8,6 @@ import 'package:flutter_project/PersonnelManagement.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_project/firebase_options.dart';
 import 'package:flutter_project/locator.dart';
-import 'package:flutter_project/MyFaceLogin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +37,6 @@ class MyApp extends StatelessWidget {
           })), //字體
       routes: {
         '/': (context) => const HomePage(), //首頁
-        // '/FaceIDLogin': (context) => const FaceIDLogin(),
-        '/FaceIDLogin': (context) => const MyFaceIDLogin(),
         '/Captain_Home': (context) => const Captain_Home(),
         '/time': (context) => const Timeout(),
         '/Management': (context) => const Management(),
